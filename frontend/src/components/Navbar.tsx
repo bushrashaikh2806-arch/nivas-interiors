@@ -15,7 +15,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
+
     window.addEventListener('scroll', onScroll, { passive: true });
+
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -27,6 +29,7 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Main Navbar */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -34,27 +37,32 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50"
         style={{
           backgroundColor: scrolled ? '#F7F4EE' : 'transparent',
-          borderBottom: scrolled ? '1px solid #E5DED3' : '1px solid transparent',
+          borderBottom: scrolled
+            ? '1px solid #E5DED3'
+            : '1px solid transparent',
           transition: 'background-color 0.4s ease, border-color 0.4s ease',
         }}
       >
         <div
-          className="container"
+          className="container navbar-container"
           style={{
             width: '100%',
             maxWidth: '100%',
             margin: '0 auto',
-            padding: '0 1rem',
+            padding: '0 1.5rem',
             boxSizing: 'border-box',
           }}
         >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: '100px',
-            gap: '1rem',
-          }}>
+          <div
+            className="navbar-header"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: '100px',
+              gap: '1rem',
+            }}
+          >
             {/* Logo */}
             <Link
               to="/"
@@ -74,14 +82,16 @@ export default function Navbar() {
                 style={{
                   height: '80px',
                   width: 'auto',
+                  maxWidth: '180px',
                   display: 'block',
                   transition: 'opacity 0.4s ease',
                 }}
               />
             </Link>
 
-            {/* Desktop Nav */}
+            {/* Desktop Navigation */}
             <nav
+              className="desktop-nav"
               style={{
                 display: 'none',
                 gap: '2rem',
@@ -90,7 +100,6 @@ export default function Navbar() {
                 flex: 1,
                 minWidth: 0,
               }}
-              className="desktop-nav"
             >
               {NAV_LINKS.map((link) => (
                 <NavLink
@@ -104,8 +113,12 @@ export default function Navbar() {
                     letterSpacing: '0.05em',
                     textDecoration: 'none',
                     color: isLight
-                      ? isActive ? '#F7F4EE' : 'rgba(247,244,238,0.75)'
-                      : isActive ? '#292824' : '#777168',
+                      ? isActive
+                        ? '#F7F4EE'
+                        : 'rgba(247,244,238,0.75)'
+                      : isActive
+                        ? '#292824'
+                        : '#777168',
                     borderBottom: isActive
                       ? `1px solid ${isLight ? '#F7F4EE' : '#C8B69E'}`
                       : '1px solid transparent',
@@ -119,12 +132,16 @@ export default function Navbar() {
             </nav>
 
             {/* CTA + Hamburger */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              marginRight: '-0.25rem',
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                marginRight: '-0.25rem',
+                flexShrink: 0,
+              }}
+            >
+              {/* Desktop Get a Quote */}
               <Link
                 to="/contact"
                 className="get-quote-btn"
@@ -134,8 +151,12 @@ export default function Navbar() {
                   justifyContent: 'center',
                   gap: '0.7rem',
                   padding: '1rem 2rem',
-                  backgroundColor: isLight ? 'rgba(247,244,238,0.15)' : '#80664F',
-                  border: `1px solid ${isLight ? 'rgba(247,244,238,0.4)' : '#80664F'}`,
+                  backgroundColor: isLight
+                    ? 'rgba(247,244,238,0.15)'
+                    : '#80664F',
+                  border: `1px solid ${
+                    isLight ? 'rgba(247,244,238,0.4)' : '#80664F'
+                  }`,
                   color: '#F7F4EE',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '1.125rem',
@@ -147,35 +168,46 @@ export default function Navbar() {
                   whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
+                  const el = e.currentTarget;
                   el.style.backgroundColor = '#292824';
                   el.style.borderColor = '#292824';
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.backgroundColor = isLight ? 'rgba(247,244,238,0.15)' : '#80664F';
-                  el.style.borderColor = isLight ? 'rgba(247,244,238,0.4)' : '#80664F';
+                  const el = e.currentTarget;
+                  el.style.backgroundColor = isLight
+                    ? 'rgba(247,244,238,0.15)'
+                    : '#80664F';
+                  el.style.borderColor = isLight
+                    ? 'rgba(247,244,238,0.4)'
+                    : '#80664F';
                 }}
               >
                 Get a Quote
                 <ArrowUpRight size={21} />
               </Link>
 
-              {/* Hamburger */}
+              {/* Mobile Hamburger */}
               <button
-                onClick={() => setMobileOpen(!mobileOpen)}
+                type="button"
+                onClick={() => setMobileOpen((prev) => !prev)}
                 className="hamburger-btn"
                 style={{
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  padding: '0.25rem',
+                  padding: '0.5rem',
                   color: isLight ? '#F7F4EE' : '#292824',
-                  display: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  position: 'relative',
+                  zIndex: 100,
                 }}
-                aria-label="Toggle menu"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileOpen}
               >
-                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+                {mobileOpen ? <X size={28} /> : <Menu size={28} />}
               </button>
             </div>
           </div>
@@ -189,34 +221,57 @@ export default function Navbar() {
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.35,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             style={{
               position: 'fixed',
               inset: 0,
-              zIndex: 49,
+              zIndex: 48,
               backgroundColor: '#292824',
               display: 'flex',
               flexDirection: 'column',
-              padding: '5rem 2rem 3rem',
+              padding: '6rem 2rem 3rem',
               overflowY: 'auto',
+              boxSizing: 'border-box',
             }}
           >
-            {/* Brand in menu */}
-            <div style={{ marginBottom: '3rem', paddingTop: '0.5rem' }}>
+            {/* Brand in Menu */}
+            <div
+              style={{
+                marginBottom: '3rem',
+                paddingTop: '0.5rem',
+              }}
+            >
               <img
                 src="/logo-light.svg"
                 alt="Nivas Interiors"
-                style={{ height: '44px', width: 'auto', display: 'block' }}
+                style={{
+                  height: '44px',
+                  width: 'auto',
+                  display: 'block',
+                }}
               />
             </div>
 
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {/* Mobile Navigation Links */}
+            <nav
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0',
+              }}
+            >
               {NAV_LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3 }}
+                  transition={{
+                    delay: i * 0.06,
+                    duration: 0.3,
+                  }}
                 >
                   <NavLink
                     to={link.href}
@@ -229,7 +284,8 @@ export default function Navbar() {
                       color: isActive ? '#C8B69E' : '#F7F4EE',
                       textDecoration: 'none',
                       padding: '0.875rem 0',
-                      borderBottom: '1px solid rgba(247,244,238,0.08)',
+                      borderBottom:
+                        '1px solid rgba(247,244,238,0.08)',
                       transition: 'color 0.2s ease',
                     })}
                   >
@@ -263,31 +319,65 @@ export default function Navbar() {
                 <ArrowUpRight size={21} />
               </Link>
 
-              <div style={{ marginTop: '2.5rem', color: '#777168', fontSize: '0.875rem' }}>
+              {/* Contact Details */}
+              <div
+                style={{
+                  marginTop: '2.5rem',
+                  color: '#A69B8C',
+                  fontSize: '0.875rem',
+                }}
+              >
                 <div>{SITE_CONFIG.phone}</div>
-                <div style={{ marginTop: '0.25rem' }}>{SITE_CONFIG.email}</div>
+                <div style={{ marginTop: '0.25rem' }}>
+                  {SITE_CONFIG.email}
+                </div>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Responsive Styles */}
       <style>{`
         @media (min-width: 1024px) {
           .desktop-nav {
             display: flex !important;
           }
+
           .hamburger-btn {
             display: none !important;
+          }
+
+          .get-quote-btn {
+            display: inline-flex !important;
           }
         }
 
         @media (max-width: 1023px) {
+          .desktop-nav {
+            display: none !important;
+          }
+
           .get-quote-btn {
             display: none !important;
           }
+
           .hamburger-btn {
             display: flex !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .navbar-container {
+            padding: 0 1rem !important;
+          }
+
+          .navbar-header {
+            height: 75px !important;
+          }
+
+          .navbar-header img {
+            height: 62px !important;
           }
         }
       `}</style>
