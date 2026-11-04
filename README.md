@@ -1,47 +1,41 @@
 # Nivas Interiors — Website
 
-> **"Designing Spaces. Creating Stories."**
+**"Designing Spaces. Creating Stories."**
 
-A premium, production-quality interior design website for Nivas Interiors — built with React, Vite, TypeScript, Tailwind CSS, Framer Motion and an Express/Supabase backend.
-
----
+A premium interior design website for Nivas Interiors, built with React, Vite, TypeScript, Tailwind CSS, Framer Motion and a Node.js/Express backend.
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Frontend | React 19, Vite 8, TypeScript |
-| Styling | Tailwind CSS v4, Custom CSS design system |
+| Styling | Tailwind CSS v4, Custom CSS |
 | Animations | Framer Motion |
 | Routing | React Router v7 |
-| Forms | React Hook Form + Zod |
+| Forms | React Hook Form, Zod |
 | Icons | Lucide React |
 | SEO | React Helmet Async |
 | Backend | Node.js, Express.js |
-| Database | Supabase (PostgreSQL) |
-| Rate Limiting | express-rate-limit |
-
----
 
 ## Project Structure
 
-```
+```text
 nivas-interiors/
-├── frontend/                  # React + Vite app
+├── frontend/
 │   └── src/
 │       ├── components/
-│       │   ├── home/          # Home page sections
+│       │   ├── home/
 │       │   ├── Navbar.tsx
 │       │   ├── Footer.tsx
 │       │   └── AnimationComponents.tsx
-│       ├── pages/             # All 9 pages
-│       ├── layouts/           # MainLayout (Navbar + Footer wrapper)
-│       ├── data/              # siteData.ts — all content
-│       ├── hooks/             # useScrollAnimation.ts
-│       └── styles/            # globals.css — design system
-├── backend/                   # Express API
+│       ├── pages/
+│       ├── layouts/
+│       ├── data/
+│       ├── hooks/
+│       └── styles/
+├── backend/
 │   └── src/
-│       ├── config/supabase.js
+│       ├── config/
 │       ├── controllers/
 │       ├── services/
 │       ├── middleware/
@@ -49,27 +43,36 @@ nivas-interiors/
 └── README.md
 ```
 
----
-
-## Pages
+## Website Pages
 
 | Route | Page |
 |---|---|
-| `/` | Home (Hero, About, Services, Projects, Why Us, Philosophy, Process, Testimonials, FAQ, CTA) |
+| `/` | Home |
 | `/about` | About Us |
-| `/services` | All 8 Services |
+| `/services` | Services |
 | `/projects` | Portfolio with category filters |
-| `/projects/:id` | Individual Project Detail |
-| `/gallery` | Masonry gallery with lightbox |
-| `/process` | Our 4-step design process |
-| `/testimonials` | Client testimonials grid |
-| `/contact` | Contact + Enquiry form |
+| `/projects/:id` | Individual Project Details |
+| `/gallery` | Image Gallery with Lightbox |
+| `/process` | Design Process |
+| `/testimonials` | Client Testimonials |
+| `/contact` | Contact and Enquiry Form |
 
----
+## Getting Started
 
-## Quick Start
+### Prerequisites
 
-### 1. Frontend
+- Node.js
+- npm
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/bushrashaikh2806-arch/nivas-interiors.git
+cd nivas-interiors
+```
+
+### 2. Run the Frontend
 
 ```bash
 cd frontend
@@ -77,144 +80,86 @@ npm install
 npm run dev
 ```
 
-Opens at: **http://localhost:5173**
+Open the local development URL shown in your terminal, usually:
 
-### 2. Backend
+`http://localhost:5173`
+
+### 3. Run the Backend
+
+Open another terminal:
 
 ```bash
 cd backend
-cp .env.example .env
-# Fill in your Supabase credentials in .env
 npm install
 npm run dev
 ```
 
-API runs at: **http://localhost:3001**
+The backend runs at:
 
----
-
-## Supabase Setup
-
-### Step 1 — Create Project
-1. Go to [supabase.com](https://supabase.com) → New Project
-2. Copy your **Project URL** and **service_role key** (Settings → API)
-
-### Step 2 — Create the enquiries table
-
-Run this SQL in the Supabase SQL Editor:
-
-```sql
-CREATE TABLE enquiries (
-  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  full_name     TEXT NOT NULL,
-  phone         TEXT NOT NULL,
-  email         TEXT NOT NULL,
-  service_required TEXT NOT NULL,
-  property_type TEXT NOT NULL,
-  budget        TEXT NOT NULL,
-  consultation_date DATE,
-  project_description TEXT NOT NULL,
-  status        TEXT DEFAULT 'new' NOT NULL,
-  created_at    TIMESTAMPTZ DEFAULT NOW() NOT NULL
-);
-
--- Row-level security (optional but recommended)
-ALTER TABLE enquiries ENABLE ROW LEVEL SECURITY;
-```
-
-### Step 3 — Configure backend .env
-
-```env
-PORT=3001
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
-FRONTEND_URL=http://localhost:5173
-```
-
-> ⚠️ **Never commit your `.env` file.** The service role key has full database access.
-
----
+`http://localhost:3001`
 
 ## Environment Variables
 
-### Backend (`backend/.env`)
+If the backend requires environment variables, create a `.env` file inside the `backend` folder.
 
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default: 3001) |
-| `SUPABASE_URL` | Your Supabase project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only) |
-| `FRONTEND_URL` | Frontend URL for CORS (production domain) |
+Example:
 
----
+```env
+PORT=3001
+FRONTEND_URL=http://localhost:5173
+```
+
+Never commit private API keys, passwords or `.env` files to GitHub.
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/health` | Server health check |
-| `POST` | `/api/enquiries` | Submit a new enquiry |
+| `GET` | `/api/health` | Backend health check |
+| `POST` | `/api/enquiries` | Submit a customer enquiry |
 
-### POST /api/enquiries — Request Body
+## Customising Website Content
 
-```json
-{
-  "full_name": "string (required)",
-  "phone": "string — 10-digit Indian mobile (required)",
-  "email": "string (required)",
-  "service_required": "Living Room | Bedroom | Kitchen | Wardrobe | Complete Home | Office | Other",
-  "property_type": "Apartment | Independent House | Villa | Office | Commercial Space | Other",
-  "budget": "Under ₹2 Lakhs | ₹2–5 Lakhs | ₹5–10 Lakhs | ₹10–20 Lakhs | Above ₹20 Lakhs | Not Decided",
-  "consultation_date": "YYYY-MM-DD (optional)",
-  "project_description": "string, min 10 chars (required)"
-}
-```
+Website content is maintained in:
 
----
+`frontend/src/data/siteData.ts`
 
-## Customising Content
+You can update:
 
-All site content lives in one file: [`frontend/src/data/siteData.ts`](frontend/src/data/siteData.ts)
+- `SITE_CONFIG` — Business name, contact details and social links.
+- `SERVICES` — Service descriptions and images.
+- `PROJECTS` — Portfolio projects and gallery images.
+- `TESTIMONIALS` — Client reviews, with permission.
+- `FAQS` — Frequently asked questions.
 
-Update these exports to reflect real business information:
-- `SITE_CONFIG` — name, phone, email, address, social links
-- `SERVICES` — service descriptions and images
-- `PROJECTS` — portfolio projects and gallery images
-- `TESTIMONIALS` — client reviews (with client permission only)
-- `FAQS` — frequently asked questions
+## Production Build
 
----
+To create a production build of the frontend:
 
-## Production Deployment
-
-### Frontend (Vercel / Netlify)
 ```bash
 cd frontend
+npm install
 npm run build
-# Deploy the dist/ folder
 ```
 
-Set `VITE_API_URL` if your API is on a different domain.
+The production-ready files are generated in the `frontend/dist/` folder.
 
-### Backend (Railway / Render / VPS)
-```bash
-cd backend
-npm start
-```
+## Deployment
 
-Set all environment variables in your hosting platform.
+- **Frontend:** Vercel or Netlify
+- **Backend:** Render, Railway or another Node.js-compatible hosting platform.
 
----
+Configure the required environment variables and production API URL in your hosting platforms.
 
 ## Brand Colour Palette
 
-| Token | Hex | Usage |
+| Token | Hex Code | Usage |
 |---|---|---|
 | Warm Ivory | `#F7F4EE` | Primary background |
 | Soft Beige | `#E9E1D5` | Secondary background |
-| Sandstone | `#C8B69E` | Accents, labels |
+| Sandstone | `#C8B69E` | Accents and labels |
 | Walnut Brown | `#80664F` | Primary buttons |
-| Deep Charcoal | `#292824` | Text, footer |
+| Deep Charcoal | `#292824` | Text and footer |
 | Warm Grey | `#777168` | Secondary text |
 
 ---
