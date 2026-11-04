@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" fill="none">
+  <!-- Icon mark -->
+  <g>
+    <rect x="4" y="14" width="22" height="32" rx="0" fill="none" stroke="#C8B69E" stroke-width="1.2"/>
+    <path d="M9 46 L9 28 Q9 19 15 19 Q21 19 21 28 L21 46" fill="#C8B69E" opacity="0.9"/>
+    <line x1="4" y1="46" x2="26" y2="46" stroke="#C8B69E" stroke-width="1.2"/>
+    <line x1="4" y1="14" x2="26" y2="14" stroke="#C8B69E" stroke-width="1.2"/>
+  </g>
+
+  <text
+    x="38"
+    y="33"
+    font-family="'Playfair Display', Georgia, 'Times New Roman', serif"
+    font-size="17"
+    font-weight="600"
+    letter-spacing="2.5"
+    fill="#F7F4EE"
+  >NIVAS</text>
+
+  <line x1="38" y1="37.5" x2="154" y2="37.5" stroke="#C8B69E" stroke-width="0.7"/>
+
+  <text
+    x="38"
+    y="48"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-size="7"
+    font-weight="400"
+    letter-spacing="4.5"
+    fill="rgba(247,244,238,0.6)"
+  >INTERIORS</text>
+</svg>
