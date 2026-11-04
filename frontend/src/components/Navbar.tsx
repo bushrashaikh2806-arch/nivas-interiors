@@ -82,7 +82,7 @@ export default function Navbar() {
                 style={{
                   height: '80px',
                   width: 'auto',
-                  maxWidth: '180px',
+                  maxWidth: '300px',
                   display: 'block',
                   transition: 'opacity 0.4s ease',
                 }}
